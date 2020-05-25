@@ -51,7 +51,7 @@ model.compile(optimizer='adam', loss='categorical_crossentropy',
              metrics=['accuracy']
              )
 
-h = model.fit(X_train, y_train_cat,batch_size=512,epochs=1)
+h = model.fit(X_train, y_train_cat,batch_size=512,epochs=5)
 test_loss, test_acc = model.evaluate(X_test, y_test_cat)
 print(test_acc)
 with open('Output.txt', 'x') as f:
