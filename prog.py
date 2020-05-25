@@ -22,9 +22,9 @@ X_test_1d = X_test.reshape(-1 , 28*28)
 
 X_train = X_train_1d.astype('float32')
 X_test = X_test_1d.astype('float32')
-
-X_train = X_train.reshape(-1,28,28,1)
-X_test = X_test.reshape(-1,28,28,1)
+if(os.environ['trial']>='2'):
+ X_train = X_train.reshape(-1,28,28,1)
+ X_test = X_test.reshape(-1,28,28,1)
 
 from keras.utils.np_utils import to_categorical
 
@@ -32,14 +32,17 @@ y_train_cat = to_categorical(y_train)
 y_test_cat = to_categorical(y_test)
 
 model = Sequential()
+if(os.environ['trial']=='1'):
+ model.add(Dense(units=512, input_dim=28*28, activation='relu'))
+ model.add(Dense(units=256, activation='relu'))
+ model.add(Dense(units=10, activation='softmax'))
+
 if(os.environ['trial']>='2'):
- model.add(Conv2D(32,(5,5),input_shape = (28,28,1),activation = 'relu'))
-
-model.add(MaxPooling2D(pool_size=(6,6)))
-
-model.add(Flatten())
+ model.add(Conv2D(32,(3,3),input_shape = (28,28,1),activation = 'relu'))
+ model.add(MaxPooling2D(pool_size=(6,6)))
+ model.add(Flatten())
 if(os.environ['trial']>='3'):
- model.add(Dense(units=64, activation='relu'))
+ model.add(Dense(units=256, activation='relu'))
 
 model.add(Dense(units=10, activation='softmax'))
 
