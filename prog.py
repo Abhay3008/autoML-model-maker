@@ -32,28 +32,37 @@ y_train_cat = to_categorical(y_train)
 y_test_cat = to_categorical(y_test)
 
 model = Sequential()
-if(os.environ['trial']=='1'):
- model.add(Dense(units=512, input_dim=28*28, activation='relu'))
- model.add(Dense(units=256, activation='relu'))
- model.add(Dense(units=10, activation='softmax'))
 
-if(os.environ['trial']>='2'):
- model.add(Conv2D(32,(3,3),input_shape = (28,28,1),activation = 'relu'))
+model.add(Conv2D(32,(3,3),input_shape = (28,28,1),activation = 'relu'))
+if(os.environ['trial']=='1'):
  model.add(MaxPooling2D(pool_size=(6,6)))
- model.add(Flatten())
+elif(os.environ['trial']=='2'):
+ model.add(MaxPooling2D(pool_size=(3,3)))
+else:
+ model.add(MaxPooling2D(pool_size=(2,2)))
+
+model.add(Flatten())
+
 if(os.environ['trial']>='3'):
  model.add(Dense(units=256, activation='relu'))
 
 model.add(Dense(units=10, activation='softmax'))
+model.summary()
 
-
-model.compile(optimizer='adam', loss='categorical_crossentropy', 
+model.compile(optimizer='adam', loss='sparse_categorical_crossentropy', 
              metrics=['accuracy']
              )
+if(os.environ['trial']=='4'):
+ h = model.fit(X_train, y_train_cat,batch_size=512,epochs=25)
+elif(os.environ['trial']=='5'):
+ h = model.fit(X_train, y_train_cat,batch_size=512,epochs=40)
+else:
+ h = model.fit(X_train, y_train_cat,batch_size=512,epochs=10)
 
-h = model.fit(X_train, y_train_cat,batch_size=512,epochs=5)
 test_loss, test_acc = model.evaluate(X_test, y_test_cat)
+
 print(test_acc)
+
 with open('Output.txt', 'x') as f:
   print(test_acc, file=f)
 model.save("digit.h5")
