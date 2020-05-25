@@ -22,9 +22,9 @@ X_test_1d = X_test.reshape(-1 , 28*28)
 
 X_train = X_train_1d.astype('float32')
 X_test = X_test_1d.astype('float32')
-if(os.environ['trial']>='2'):
- X_train = X_train.reshape(-1,28,28,1)
- X_test = X_test.reshape(-1,28,28,1)
+
+X_train = X_train.reshape(-1,28,28,1)
+X_test = X_test.reshape(-1,28,28,1)
 
 from keras.utils.np_utils import to_categorical
 
@@ -43,13 +43,13 @@ else:
 
 model.add(Flatten())
 
-if(os.environ['trial']>='3'):
+if(os.environ['trial']>='1'):
  model.add(Dense(units=256, activation='relu'))
 
 model.add(Dense(units=10, activation='softmax'))
 model.summary()
 
-model.compile(optimizer='adam', loss='sparse_categorical_crossentropy', 
+model.compile(optimizer='adam', loss='categorical_crossentropy', 
              metrics=['accuracy']
              )
 if(os.environ['trial']=='4'):
