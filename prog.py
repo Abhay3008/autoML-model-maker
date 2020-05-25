@@ -64,5 +64,8 @@ test_loss, test_acc = model.evaluate(X_test, y_test_cat)
 print(test_acc)
 
 with open('Output.txt', 'x') as f:
+  print("Test accuracy of your model is :", file=f)
   print(test_acc, file=f)
+  print("\nTest loss of your model is :", file=f)
+  print(test_loss, file=f)
 model.save("digit.h5")
