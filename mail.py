@@ -6,7 +6,7 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
 subject = "This is an mail with attachment of output file"
-body = "hey, Your best model is created open attached file to view output"
+body = "hey, Your best model is created open attached file to view output."
 sender_email = "SENDER EMAIL"
 receiver_email = "RECIEVER EMAIL"
 password = "REMOVE AND ENTER YOUR PASSWORD"
