@@ -1,0 +1,34 @@
+if 
+grep -Rw '/mlops-ws/prog.py -e 'Sequential'
+then
+  for i in 1 2 3 4 5
+  do
+  sudo docker run -di -e trial = $i -v /mlops-ws/:/root/ --name cnn sequential:v1
+  sudo docker exec -w /root -i cnn python3 prog.py
+  sudo docker rm -f cnn 
+  if [[ $(cat /mlops-ws/Output.txt) >= 0.95 ]]
+  then 
+    break
+   else
+    sudo rm /mlops-ws/Output.txt
+   fi
+  done
+else
+
+if
+grep -Rw '/mlops-ws/prog.py -e 'Regression'
+then
+  for i in 1 2 3 4 5
+  do
+  sudo docker run -di -e trial = $i -v /mlops-ws/:/root/ --name cnn Lregression:v1
+  sudo docker exec -w /root -i cnn python3 prog.py
+  sudo docker rm -f lr
+    if [[ $(cat /mlops-ws/Output.txt) >= 0.95 ]]
+  then 
+    break
+   else
+    sudo rm /mlops-ws/Output.txt
+   fi
+  done
+fi
+fi
